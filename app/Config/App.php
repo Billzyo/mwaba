@@ -1,48 +1,65 @@
 <?php
 
+namespace App\Config;
+
+use App\Config\Router;
+use App\Controllers\DashboardController;
+use App\Controllers\SensorController;
+use App\Controllers\CropController;
+use App\Controllers\EquipmentController;
+
 class App {
     private $router;
     
     public function __construct() {
+        $this->registerAutoloader();
         $this->router = new Router();
         $this->setupRoutes();
     }
     
+    private function registerAutoloader() {
+        spl_autoload_register(function ($class) {
+            $file = APP_PATH . '/' . str_replace('\\', '/', $class) . '.php';
+            if (file_exists($file)) {
+                require_once $file;
+            }
+        });
+    }
+    
     private function setupRoutes() {
         // Dashboard routes
-        $this->router->get('/', 'DashboardController@index');
-        $this->router->get('/dashboard', 'DashboardController@index');
-        $this->router->get('/api/dashboard/latest', 'DashboardController@getLatestData');
-        $this->router->get('/api/dashboard/charts', 'DashboardController@getChartData');
+        $this->router->add('GET', '/mwaba/', [DashboardController::class, 'index']);
+        $this->router->add('GET', '/mwaba/dashboard', [DashboardController::class, 'index']);
         
         // Sensor routes
-        $this->router->post('/api/sensors/data', 'SensorController@receiveData');
-        $this->router->get('/api/sensors', 'SensorController@getSensors');
-        $this->router->get('/api/sensors/{id}/readings', 'SensorController@getSensorReadings');
-        $this->router->get('/api/sensors/latest', 'SensorController@getLatestReadings');
+        $this->router->add('POST', '/mwaba/sensor/receive', [SensorController::class, 'receiveData']);
+        $this->router->add('POST', '/mwaba/data-receiver.php', [SensorController::class, 'receiveData']);
         
         // Crop routes
-        $this->router->get('/crops', 'CropController@index');
-        $this->router->get('/api/crops', 'CropController@getCrops');
-        $this->router->get('/api/crops/health', 'CropController@getCropHealth');
-        $this->router->get('/api/crops/near-harvest', 'CropController@getCropsNearHarvest');
-        $this->router->post('/api/crops/update-health', 'CropController@updateHealthStatus');
-        $this->router->post('/api/crops', 'CropController@create');
+        $this->router->add('GET', '/mwaba/crops', [CropController::class, 'index']);
         
         // Equipment routes
-        $this->router->get('/equipment', 'EquipmentController@index');
-        $this->router->get('/api/equipment', 'EquipmentController@getEquipment');
-        $this->router->get('/api/equipment/active', 'EquipmentController@getActiveEquipment');
-        $this->router->get('/api/equipment/type', 'EquipmentController@getEquipmentByType');
-        $this->router->post('/api/equipment/update-status', 'EquipmentController@updateStatus');
-        $this->router->get('/api/equipment/maintenance', 'EquipmentController@getMaintenanceSchedule');
-        $this->router->post('/api/equipment/update-maintenance', 'EquipmentController@updateMaintenance');
-        
-        // Legacy routes for backward compatibility
-        $this->router->post('/data-receiver.php', 'SensorController@receiveData');
+        $this->router->add('GET', '/mwaba/equipment', [EquipmentController::class, 'index']);
     }
     
     public function run() {
-        $this->router->dispatch();
+        $uri = $_SERVER['REQUEST_URI'];
+        $method = $_SERVER['REQUEST_METHOD'];
+        
+        $callback = $this->router->dispatch($uri, $method);
+        
+        if ($callback) {
+            if (is_array($callback) && count($callback) === 2) {
+                $controllerName = $callback[0];
+                $methodName = $callback[1];
+                $controller = new $controllerName();
+                $controller->$methodName();
+            } else if (is_callable($callback)) {
+                call_user_func($callback);
+            }
+        } else {
+            http_response_code(404);
+            echo "404 Not Found";
+        }
     }
 }

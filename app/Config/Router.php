@@ -1,11 +1,21 @@
 <?php
 
+namespace App\Config;
+
 class Router {
     private $routes = [];
     private $basePath = '';
     
     public function __construct($basePath = '') {
         $this->basePath = rtrim($basePath, '/');
+    }
+    
+    public function add($method, $path, $callback) {
+        $this->routes[] = [
+            'method' => strtoupper($method),
+            'path' => $path,
+            'callback' => $callback
+        ];
     }
     
     public function addRoute($method, $path, $handler) {
@@ -32,24 +42,16 @@ class Router {
         $this->addRoute('DELETE', $path, $handler);
     }
     
-    public function dispatch() {
-        $requestMethod = $_SERVER['REQUEST_METHOD'];
-        $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-        
-        // Remove base path from request URI
-        if ($this->basePath && strpos($requestUri, $this->basePath) === 0) {
-            $requestUri = substr($requestUri, strlen($this->basePath));
-        }
+    public function dispatch($uri, $method) {
+        $uri = strtok($uri, '?'); // Remove query string
         
         foreach ($this->routes as $route) {
-            if ($route['method'] === $requestMethod && $this->matchPath($route['path'], $requestUri)) {
-                $this->executeHandler($route['handler'], $this->extractParams($route['path'], $requestUri));
-                return;
+            if ($route['method'] === $method && $route['path'] === $uri) {
+                return $route['callback'];
             }
         }
         
-        // No route found
-        $this->handleNotFound();
+        return null; // No route found
     }
     
     private function matchPath($routePath, $requestPath) {
