@@ -1,6 +1,8 @@
 <?php
 
-require_once __DIR__ . '/BaseModel.php';
+namespace App\Models;
+
+use App\Models\BaseModel;
 
 class EquipmentModel extends BaseModel {
     protected $table = 'equipment';

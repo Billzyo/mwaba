@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Config;
+
 class Database {
     private $host = 'localhost';
     private $username = 'root';
@@ -13,14 +15,14 @@ class Database {
     
     private function connect() {
         try {
-            $this->connection = new mysqli($this->host, $this->username, $this->password, $this->database);
+            $this->connection = new \mysqli($this->host, $this->username, $this->password, $this->database);
             
             if ($this->connection->connect_error) {
-                throw new Exception("Connection failed: " . $this->connection->connect_error);
+                throw new \Exception("Connection failed: " . $this->connection->connect_error);
             }
             
             $this->connection->set_charset("utf8mb4");
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             die("Database connection error: " . $e->getMessage());
         }
     }

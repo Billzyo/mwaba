@@ -12,18 +12,8 @@ class App {
     private $router;
     
     public function __construct() {
-        $this->registerAutoloader();
         $this->router = new Router();
         $this->setupRoutes();
-    }
-    
-    private function registerAutoloader() {
-        spl_autoload_register(function ($class) {
-            $file = APP_PATH . '/' . str_replace('\\', '/', $class) . '.php';
-            if (file_exists($file)) {
-                require_once $file;
-            }
-        });
     }
     
     private function setupRoutes() {

@@ -1,7 +1,9 @@
 <?php
 
-require_once __DIR__ . '/BaseController.php';
-require_once __DIR__ . '/../Models/SensorModel.php';
+namespace App\Controllers;
+
+use App\Controllers\BaseController;
+use App\Models\SensorModel;
 
 class SensorController extends BaseController {
     private $sensorModel;

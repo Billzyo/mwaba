@@ -1,7 +1,9 @@
 <?php
 
-require_once __DIR__ . '/BaseController.php';
-require_once __DIR__ . '/../Models/EquipmentModel.php';
+namespace App\Controllers;
+
+use App\Controllers\BaseController;
+use App\Models\EquipmentModel;
 
 class EquipmentController extends BaseController {
     private $equipmentModel;

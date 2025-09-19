@@ -1,7 +1,9 @@
 <?php
 
-require_once __DIR__ . '/BaseController.php';
-require_once __DIR__ . '/../Models/CropModel.php';
+namespace App\Controllers;
+
+use App\Controllers\BaseController;
+use App\Models\CropModel;
 
 class CropController extends BaseController {
     private $cropModel;
