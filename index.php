@@ -20,7 +20,7 @@ require_once APP_PATH . '/Config/App.php';
 
 // Initialize and run the application
 try {
-    $app = new App();
+    $app = new \App\Config\App();
     $app->run();
 } catch (Exception $e) {
     http_response_code(500);
