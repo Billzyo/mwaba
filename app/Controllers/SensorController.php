@@ -10,6 +10,9 @@ class SensorController extends BaseController {
     
     protected function initialize() {
         $this->sensorModel = new SensorModel();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
     }
     
     public function receiveData() {

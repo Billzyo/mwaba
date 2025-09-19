@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\SensorModel;
 use App\Models\CropModel;
 use App\Models\EquipmentModel;
+use App\Config\AuthMiddleware;
 
 class DashboardController extends BaseController {
     private $sensorModel;
@@ -19,7 +20,13 @@ class DashboardController extends BaseController {
     }
     
     public function index() {
+        // Require authentication
+        AuthMiddleware::requireAuth();
+        
         try {
+            // Get current user
+            $currentUser = AuthMiddleware::getCurrentUser();
+            
             // Get latest sensor readings
             $sensorData = $this->sensorModel->getLatestReadings();
             $latestReadings = $this->formatSensorData($sensorData);
@@ -40,7 +47,9 @@ class DashboardController extends BaseController {
                 'chartData' => $chartData,
                 'cropData' => $cropChartData,
                 'equipmentData' => $equipmentData,
-                'pageTitle' => 'Farm Dashboard'
+                'pageTitle' => 'Farm Dashboard',
+                'currentUser' => $currentUser,
+                'activeMenu' => 'dashboard'
             ];
             
             echo $this->render('dashboard/index', $data);

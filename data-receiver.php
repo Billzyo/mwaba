@@ -12,7 +12,16 @@ ini_set('display_errors', 1);
 define('APP_PATH', __DIR__ . '/app');
 define('PUBLIC_PATH', __DIR__ . '/public');
 
-// Include the MVC application
+// Register autoloader first
+spl_autoload_register(function ($class) {
+    $file = APP_PATH . '/' . str_replace('\\', '/', $class) . '.php';
+    if (file_exists($file)) {
+        require_once $file;
+    }
+});
+
+// Manually include Router class since it's needed by App
+require_once APP_PATH . '/Config/Router.php';
 require_once APP_PATH . '/Config/App.php';
 
 // Initialize and run the application

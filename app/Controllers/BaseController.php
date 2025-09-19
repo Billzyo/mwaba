@@ -24,6 +24,10 @@ abstract class BaseController {
         // Extract data to variables
         extract($data);
         
+        // Make constants available in view
+        $PUBLIC_PATH = defined('PUBLIC_PATH') ? PUBLIC_PATH : '/public';
+        $APP_PATH = defined('APP_PATH') ? APP_PATH : __DIR__ . '/..';
+        
         // Start output buffering
         ob_start();
         include $viewFile;

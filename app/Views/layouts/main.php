@@ -6,7 +6,7 @@
     <title><?= $pageTitle ?? 'Farm Monitoring System' ?></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="/public/assets/css/styles.css">
+    <link rel="stylesheet" href="http://localhost:8000/public/assets/css/styles.css">
 </head>
 <body>
     <div class="container">
@@ -20,8 +20,16 @@
                 <i class="fas fa-bell"></i>
                 <i class="fas fa-envelope"></i>
                 <div class="user-profile">
-                    <img src="/public/assets/images/poslogo.png" alt="User">
-                    <span>Farmer Mwaba</span>
+                    <img src="http://localhost:8000/public/assets/images/poslogo.png" alt="User">
+                    <div class="user-info">
+                        <span><?= htmlspecialchars($currentUser['full_name'] ?? 'Farmer Mwaba') ?></span>
+                        <small><?= htmlspecialchars($currentUser['role'] ?? 'user') ?></small>
+                    </div>
+                    <div class="user-menu">
+                        <a href="/mwaba/logout" class="logout-btn" title="Logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </a>
+                    </div>
                 </div>
                 <div class="mobile-menu-btn">
                     <i class="fas fa-bars"></i>
@@ -36,43 +44,51 @@
                 </div>
                 <ul class="sidebar-menu">
                     <li class="menu-item <?= $activeMenu === 'dashboard' ? 'active' : '' ?>">
-                        <a href="/dashboard">
+                        <a href="/mwaba/dashboard">
                             <i class="fas fa-chart-line"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li class="menu-item <?= $activeMenu === 'crops' ? 'active' : '' ?>">
-                        <a href="/crops">
+                        <a href="/mwaba/crops">
                             <i class="fas fa-seedling"></i>
                             <span>Crop Analytics</span>
                         </a>
                     </li>
                     <li class="menu-item <?= $activeMenu === 'irrigation' ? 'active' : '' ?>">
-                        <a href="/irrigation">
+                        <a href="/mwaba/irrigation">
                             <i class="fas fa-tint"></i>
                             <span>Irrigation</span>
                         </a>
                     </li>
                     <li class="menu-item <?= $activeMenu === 'climate' ? 'active' : '' ?>">
-                        <a href="/climate">
+                        <a href="/mwaba/climate">
                             <i class="fas fa-thermometer-half"></i>
                             <span>Climate Control</span>
                         </a>
                     </li>
                     <li class="menu-item <?= $activeMenu === 'equipment' ? 'active' : '' ?>">
-                        <a href="/equipment">
+                        <a href="/mwaba/equipment">
                             <i class="fas fa-cogs"></i>
                             <span>Equipment</span>
                         </a>
                     </li>
+                    <?php if (isset($currentUser) && $currentUser['role'] === 'admin'): ?>
+                    <li class="menu-item <?= $activeMenu === 'users' ? 'active' : '' ?>">
+                        <a href="/mwaba/users">
+                            <i class="fas fa-users"></i>
+                            <span>User Management</span>
+                        </a>
+                    </li>
+                    <?php endif; ?>
                     <li class="menu-item <?= $activeMenu === 'alerts' ? 'active' : '' ?>">
-                        <a href="/alerts">
+                        <a href="/mwaba/alerts">
                             <i class="fas fa-exclamation-triangle"></i>
                             <span>Alerts</span>
                         </a>
                     </li>
                     <li class="menu-item <?= $activeMenu === 'settings' ? 'active' : '' ?>">
-                        <a href="/settings">
+                        <a href="/mwaba/settings">
                             <i class="fas fa-cog"></i>
                             <span>Settings</span>
                         </a>
@@ -86,6 +102,6 @@
         </div>
     </div>
 
-    <script src="/public/assets/js/script.js"></script>
+    <script src="http://localhost:8000/public/assets/js/script.js"></script>
 </body>
 </html>

@@ -10,6 +10,9 @@ class CropController extends BaseController {
     
     protected function initialize() {
         $this->cropModel = new CropModel();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
     }
     
     public function index() {

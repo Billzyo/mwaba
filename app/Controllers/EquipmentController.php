@@ -10,6 +10,9 @@ class EquipmentController extends BaseController {
     
     protected function initialize() {
         $this->equipmentModel = new EquipmentModel();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
     }
     
     public function index() {
