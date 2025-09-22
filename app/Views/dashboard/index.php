@@ -5,23 +5,32 @@ ob_start();
 
 <div class="content-header">
     <h2>FARM DASHBOARD</h2>
-    <div class="last-updated">
-        <i class="fas fa-sync"></i> Updated: <span id="last-updated">Just now</span>
+    <div class="header-controls">
+        <div class="connection-status" id="connection-status">🟡 Connecting...</div>
+        <div class="last-updated">
+            <i class="fas fa-sync"></i> <span id="last-update-time">Just now</span>
+        </div>
+        <button class="btn btn-sm btn-secondary" onclick="window.farmMonitor.connect()">
+            <i class="fas fa-plug"></i> Reconnect
+        </button>
     </div>
 </div>
 
+<!-- Alert Container -->
+<div id="alert-container" class="alert-container"></div>
+
 <div class="stats-grid">
-    <div class="stat-card temperature">
+    <div class="stat-card temperature" data-sensor="temperature">
         <div class="card-header">
             <i class="fas fa-thermometer-half"></i>
             <h3>Temperature</h3>
         </div>
         <div class="card-value">
-            <span id="temperature-value"><?= isset($sensorData['temperature']['value']) ? htmlspecialchars($sensorData['temperature']['value']) : 'N/A' ?></span>
+            <span class="sensor-value" id="temperature-value"><?= isset($sensorData['temperature']['value']) ? htmlspecialchars($sensorData['temperature']['value']) : 'N/A' ?></span>
             <span class="card-unit">°C</span>
         </div>
         <div class="card-footer">
-            <div class="status good" id="temperature-status">
+            <div class="sensor-status status-good" id="temperature-status">
                 <i class="fas fa-check-circle"></i>
                 Optimal
             </div>
@@ -32,17 +41,17 @@ ob_start();
         </div>
     </div>
 
-    <div class="stat-card humidity">
+    <div class="stat-card humidity" data-sensor="humidity">
         <div class="card-header">
             <i class="fas fa-tint"></i>
             <h3>Humidity</h3>
         </div>
         <div class="card-value">
-            <span id="humidity-value"><?= isset($sensorData['humidity']['value']) ? htmlspecialchars($sensorData['humidity']['value']) : 'N/A' ?></span>
+            <span class="sensor-value" id="humidity-value"><?= isset($sensorData['humidity']['value']) ? htmlspecialchars($sensorData['humidity']['value']) : 'N/A' ?></span>
             <span class="card-unit">%</span>
         </div>
         <div class="card-footer">
-            <div class="status good" id="humidity-status">
+            <div class="sensor-status status-good" id="humidity-status">
                 <i class="fas fa-check-circle"></i>
                 Normal
             </div>

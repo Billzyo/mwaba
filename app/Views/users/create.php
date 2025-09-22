@@ -21,14 +21,17 @@ switch ($error) {
 }
 ?>
 
-<?php include 'layouts/main.php'; ?>
-
 <div class="dashboard-content">
     <div class="content-header">
-        <h2><i class="fas fa-user-plus"></i> Create New User</h2>
-        <a href="/mwaba/users" class="btn btn-secondary">
-            <i class="fas fa-arrow-left"></i> Back to Users
-        </a>
+        <div class="header-left">
+            <a href="/mwaba/dashboard" class="btn btn-secondary">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+            <a href="/mwaba/users" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Users
+            </a>
+            <h2><i class="fas fa-user-plus"></i> Create New User</h2>
+        </div>
     </div>
     
     <?php if ($errorMessage): ?>

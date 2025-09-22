@@ -9,6 +9,10 @@ use App\Controllers\CropController;
 use App\Controllers\EquipmentController;
 use App\Controllers\AuthController;
 use App\Controllers\UserController;
+use App\Controllers\RealtimeController;
+use App\Controllers\AnalyticsController;
+use App\Controllers\PerformanceController;
+use App\Controllers\SettingsController;
 
 class App {
     private $router;
@@ -45,6 +49,35 @@ class App {
         $this->router->add('GET', '/mwaba/users/edit', [UserController::class, 'edit']);
         $this->router->add('POST', '/mwaba/users/update', [UserController::class, 'update']);
         $this->router->add('POST', '/mwaba/users/delete', [UserController::class, 'delete']);
+        
+        // Real-time API routes (protected)
+        $this->router->add('GET', '/mwaba/api/realtime/data', [RealtimeController::class, 'getLatestData']);
+        $this->router->add('GET', '/mwaba/api/realtime/charts', [RealtimeController::class, 'getChartData']);
+        $this->router->add('GET', '/mwaba/api/realtime/alerts', [RealtimeController::class, 'getAlerts']);
+        $this->router->add('POST', '/mwaba/api/realtime/broadcast', [RealtimeController::class, 'broadcastSensorData']);
+        
+        // Analytics routes (protected)
+        $this->router->add('GET', '/mwaba/analytics', [AnalyticsController::class, 'index']);
+        $this->router->add('GET', '/mwaba/api/analytics/data', [AnalyticsController::class, 'getAnalyticsData']);
+        $this->router->add('GET', '/mwaba/api/analytics/report', [AnalyticsController::class, 'generateReport']);
+        $this->router->add('GET', '/mwaba/api/analytics/export', [AnalyticsController::class, 'exportData']);
+        
+        // Performance routes (admin only)
+        $this->router->add('GET', '/mwaba/performance', [PerformanceController::class, 'index']);
+        $this->router->add('GET', '/mwaba/api/performance/metrics', [PerformanceController::class, 'getSystemMetrics']);
+        $this->router->add('GET', '/mwaba/api/performance/cache-stats', [PerformanceController::class, 'getCacheStats']);
+        $this->router->add('POST', '/mwaba/api/performance/clear-cache', [PerformanceController::class, 'clearCache']);
+        
+        // Settings routes (protected)
+        $this->router->add('GET', '/mwaba/settings', [SettingsController::class, 'index']);
+        $this->router->add('POST', '/mwaba/settings/update', [SettingsController::class, 'update']);
+        $this->router->add('POST', '/mwaba/settings/reset', [SettingsController::class, 'reset']);
+        
+        // Additional API routes for dashboard and other features
+        $this->router->add('GET', '/mwaba/api/dashboard/latest', [DashboardController::class, 'getLatestData']);
+        $this->router->add('POST', '/mwaba/api/crops/update-health', [CropController::class, 'updateHealthStatus']);
+        $this->router->add('POST', '/mwaba/api/equipment/update-status', [EquipmentController::class, 'updateStatus']);
+        $this->router->add('POST', '/mwaba/api/equipment/update-maintenance', [EquipmentController::class, 'updateMaintenance']);
     }
     
     public function run() {
@@ -104,13 +137,20 @@ class App {
             'SensorModel.php',
             'CropModel.php', 
             'EquipmentModel.php',
-            'UserModel.php'
+            'UserModel.php',
+            'SettingsModel.php'
         ];
         
         // Load AuthMiddleware
         $authMiddlewareFile = APP_PATH . '/Config/AuthMiddleware.php';
         if (file_exists($authMiddlewareFile)) {
             require_once $authMiddlewareFile;
+        }
+        
+        // Load Cache class
+        $cacheFile = APP_PATH . '/Config/Cache.php';
+        if (file_exists($cacheFile)) {
+            require_once $cacheFile;
         }
         
         foreach ($modelFiles as $modelFile) {

@@ -1,0 +1,125 @@
+{
+    "name": "Farm Monitoring System",
+    "short_name": "Farm Monitor",
+    "description": "Real-time farm monitoring and analytics system",
+    "start_url": "/mwaba/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#4CAF50",
+    "orientation": "portrait-primary",
+    "scope": "/mwaba/",
+    "lang": "en-US",
+    "categories": ["agriculture", "productivity", "utilities"],
+    "icons": [
+        {
+            "src": "public/assets/images/icon-72x72.png",
+            "sizes": "72x72",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "public/assets/images/icon-96x96.png",
+            "sizes": "96x96",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "public/assets/images/icon-128x128.png",
+            "sizes": "128x128",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "public/assets/images/icon-144x144.png",
+            "sizes": "144x144",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "public/assets/images/icon-152x152.png",
+            "sizes": "152x152",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "public/assets/images/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "public/assets/images/icon-384x384.png",
+            "sizes": "384x384",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "public/assets/images/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "public/assets/images/screenshot-desktop.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "Farm Monitoring Dashboard"
+        },
+        {
+            "src": "public/assets/images/screenshot-mobile.png",
+            "sizes": "375x667",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "Mobile Farm Monitoring"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Dashboard",
+            "short_name": "Dashboard",
+            "description": "View farm monitoring dashboard",
+            "url": "/mwaba/dashboard",
+            "icons": [
+                {
+                    "src": "public/assets/images/icon-96x96.png",
+                    "sizes": "96x96"
+                }
+            ]
+        },
+        {
+            "name": "Analytics",
+            "short_name": "Analytics",
+            "description": "View analytics and reports",
+            "url": "/mwaba/analytics",
+            "icons": [
+                {
+                    "src": "public/assets/images/icon-96x96.png",
+                    "sizes": "96x96"
+                }
+            ]
+        },
+        {
+            "name": "Sensors",
+            "short_name": "Sensors",
+            "description": "Monitor sensor data",
+            "url": "/mwaba/sensors",
+            "icons": [
+                {
+                    "src": "public/assets/images/icon-96x96.png",
+                    "sizes": "96x96"
+                }
+            ]
+        }
+    ],
+    "related_applications": [],
+    "prefer_related_applications": false,
+    "edge_side_panel": {
+        "preferred_width": 400
+    },
+    "launch_handler": {
+        "client_mode": "focus-existing"
+    }
+}

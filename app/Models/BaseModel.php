@@ -81,6 +81,15 @@ abstract class BaseModel {
         return 'id';
     }
     
+    public function find($id) {
+        return $this->getById($id);
+    }
+    
+    public function deleteAll() {
+        $sql = "DELETE FROM {$this->table}";
+        return $this->db->query($sql) !== false;
+    }
+    
     protected function executeQuery($sql, $params = []) {
         if (empty($params)) {
             $result = $this->db->query($sql);

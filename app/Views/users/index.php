@@ -32,11 +32,14 @@ switch ($error) {
 }
 ?>
 
-<?php include 'layouts/main.php'; ?>
-
 <div class="dashboard-content">
     <div class="content-header">
-        <h2><i class="fas fa-users"></i> User Management</h2>
+        <div class="header-left">
+            <a href="/mwaba/dashboard" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+            <h2><i class="fas fa-users"></i> User Management</h2>
+        </div>
         <a href="/mwaba/users/create" class="btn btn-primary">
             <i class="fas fa-plus"></i> Add New User
         </a>
@@ -147,6 +150,58 @@ switch ($error) {
 </div>
 
 <style>
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.content-header h2 {
+    margin: 0;
+    color: #333;
+}
+
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+    transform: translateY(-1px);
+}
+
 .users-table-container {
     background: white;
     border-radius: 10px;
@@ -320,6 +375,24 @@ switch ($error) {
 
 .text-danger {
     color: #dc3545;
+}
+
+@media (max-width: 768px) {
+    .content-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+    
+    .header-left {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+    
+    .btn {
+        justify-content: center;
+    }
 }
 </style>
 

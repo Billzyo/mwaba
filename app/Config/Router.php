@@ -47,7 +47,7 @@ class Router {
         
         foreach ($this->routes as $route) {
             if ($route['method'] === $method && $route['path'] === $uri) {
-                return $route['callback'];
+                return $route['callback'] ?? $route['handler'] ?? null;
             }
         }
         
