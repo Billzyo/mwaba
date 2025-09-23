@@ -13,7 +13,7 @@ class Router {
     public function add($method, $path, $callback) {
         $this->routes[] = [
             'method' => strtoupper($method),
-            'path' => $path,
+            'path' => $this->basePath . $path,
             'callback' => $callback
         ];
     }

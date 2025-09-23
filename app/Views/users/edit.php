@@ -21,10 +21,10 @@ switch ($error) {
 <div class="dashboard-content">
     <div class="content-header">
         <div class="header-left">
-            <a href="/mwaba/dashboard" class="btn btn-secondary">
+            <a href="<?= $BASE_PATH ?>/dashboard" class="btn btn-secondary">
                 <i class="fas fa-home"></i> Dashboard
             </a>
-            <a href="/mwaba/users" class="btn btn-secondary">
+            <a href="<?= $BASE_PATH ?>/users" class="btn btn-secondary">
                 <i class="fas fa-arrow-left"></i> Back to Users
             </a>
             <h2><i class="fas fa-user-edit"></i> Edit User: <?= htmlspecialchars($user['username']) ?></h2>
@@ -39,7 +39,7 @@ switch ($error) {
     <?php endif; ?>
     
     <div class="form-container">
-        <form method="POST" action="/mwaba/users/update" class="user-form">
+        <form method="POST" action="<?= $BASE_PATH ?>/users/update" class="user-form">
             <input type="hidden" name="user_id" value="<?= $user['user_id'] ?>">
             
             <div class="form-row">

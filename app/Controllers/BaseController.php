@@ -27,6 +27,9 @@ abstract class BaseController {
         // Make constants available in view
         $PUBLIC_PATH = defined('PUBLIC_PATH') ? PUBLIC_PATH : '/public';
         $APP_PATH = defined('APP_PATH') ? APP_PATH : __DIR__ . '/..';
+        // Compute base path for building URLs
+        $BASE_PATH = rtrim(dirname($_SERVER['SCRIPT_NAME'] ?? ''), '/\\');
+        if ($BASE_PATH === '/' || $BASE_PATH === '\\') { $BASE_PATH = ''; }
         
         // Start output buffering
         ob_start();
@@ -44,6 +47,12 @@ abstract class BaseController {
     }
     
     protected function redirect($url) {
+        $basePath = rtrim(dirname($_SERVER['SCRIPT_NAME'] ?? ''), '/\\');
+        if ($basePath === '/' || $basePath === '\\') { $basePath = ''; }
+        // If absolute-app path is provided (starts with '/'), prefix with base path
+        if (strpos($url, '/') === 0) {
+            $url = $basePath . $url;
+        }
         header("Location: {$url}");
         exit;
     }

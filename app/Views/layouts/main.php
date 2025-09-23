@@ -6,18 +6,19 @@
     <title><?= $pageTitle ?? 'Farm Monitoring System' ?></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="public/assets/css/styles.css">
+    <?php $BASE_PATH = isset($BASE_PATH) ? $BASE_PATH : rtrim(dirname($_SERVER['SCRIPT_NAME'] ?? ''), '/\\'); if ($BASE_PATH === '/' || $BASE_PATH === '\\') { $BASE_PATH = ''; } ?>
+    <link rel="stylesheet" href="<?= $BASE_PATH ?>/public/assets/css/styles.css">
     
     <!-- PWA Meta Tags -->
-    <link rel="manifest" href="public/manifest.json">
+    <link rel="manifest" href="<?= $BASE_PATH ?>/public/manifest.json">
     <meta name="theme-color" content="#4CAF50">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Farm Monitor">
-    <link rel="apple-touch-icon" href="public/assets/images/icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="public/assets/images/icon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="public/assets/images/icon-16x16.png">
+    <link rel="apple-touch-icon" href="<?= $BASE_PATH ?>/public/assets/images/icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="<?= $BASE_PATH ?>/public/assets/images/icon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?= $BASE_PATH ?>/public/assets/images/icon-16x16.png">
     <style>
         /* Real-time Features CSS */
         .header-controls {
@@ -165,13 +166,13 @@
                 <i class="fas fa-bell"></i>
                 <i class="fas fa-envelope"></i>
                 <div class="user-profile">
-                    <img src="public/assets/images/poslogo.png" alt="User">
+                    <img src="<?= $BASE_PATH ?>/public/assets/images/poslogo.png" alt="User">
                     <div class="user-info">
                         <span><?= htmlspecialchars($currentUser['full_name'] ?? 'Farmer Mwaba') ?></span>
                         <small><?= htmlspecialchars($currentUser['role'] ?? 'user') ?></small>
                     </div>
                     <div class="user-menu">
-                        <a href="/mwaba/logout" class="logout-btn" title="Logout">
+                        <a href="<?= $BASE_PATH ?>/logout" class="logout-btn" title="Logout">
                             <i class="fas fa-sign-out-alt"></i>
                         </a>
                     </div>
@@ -189,63 +190,63 @@
                 </div>
                 <ul class="sidebar-menu">
                     <li class="menu-item <?= $activeMenu === 'dashboard' ? 'active' : '' ?>">
-                        <a href="/mwaba/dashboard">
+                        <a href="<?= $BASE_PATH ?>/dashboard">
                             <i class="fas fa-chart-line"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li class="menu-item <?= $activeMenu === 'crops' ? 'active' : '' ?>">
-                        <a href="/mwaba/crops">
+                        <a href="<?= $BASE_PATH ?>/crops">
                             <i class="fas fa-seedling"></i>
                             <span>Crop Analytics</span>
                         </a>
                     </li>
                     <li class="menu-item <?= $activeMenu === 'irrigation' ? 'active' : '' ?>">
-                        <a href="/mwaba/irrigation">
+                        <a href="<?= $BASE_PATH ?>/irrigation">
                             <i class="fas fa-tint"></i>
                             <span>Irrigation</span>
                         </a>
                     </li>
                     <li class="menu-item <?= $activeMenu === 'climate' ? 'active' : '' ?>">
-                        <a href="/mwaba/climate">
+                        <a href="<?= $BASE_PATH ?>/climate">
                             <i class="fas fa-thermometer-half"></i>
                             <span>Climate Control</span>
                         </a>
                     </li>
             <li class="menu-item <?= $activeMenu === 'equipment' ? 'active' : '' ?>">
-                <a href="/mwaba/equipment">
+                <a href="<?= $BASE_PATH ?>/equipment">
                     <i class="fas fa-cogs"></i>
                     <span>Equipment</span>
                 </a>
             </li>
             <li class="menu-item <?= $activeMenu === 'analytics' ? 'active' : '' ?>">
-                <a href="/mwaba/analytics">
+                <a href="<?= $BASE_PATH ?>/analytics">
                     <i class="fas fa-chart-line"></i>
                     <span>Analytics</span>
                 </a>
             </li>
                     <?php if (isset($currentUser) && $currentUser['role'] === 'admin'): ?>
                     <li class="menu-item <?= $activeMenu === 'performance' ? 'active' : '' ?>">
-                        <a href="/mwaba/performance">
+                        <a href="<?= $BASE_PATH ?>/performance">
                             <i class="fas fa-tachometer-alt"></i>
                             <span>Performance</span>
                         </a>
                     </li>
                     <li class="menu-item <?= $activeMenu === 'users' ? 'active' : '' ?>">
-                        <a href="/mwaba/users">
+                        <a href="<?= $BASE_PATH ?>/users">
                             <i class="fas fa-users"></i>
                             <span>User Management</span>
                         </a>
                     </li>
                     <?php endif; ?>
                     <li class="menu-item <?= $activeMenu === 'alerts' ? 'active' : '' ?>">
-                        <a href="/mwaba/alerts">
+                        <a href="<?= $BASE_PATH ?>/alerts">
                             <i class="fas fa-exclamation-triangle"></i>
                             <span>Alerts</span>
                         </a>
                     </li>
                     <li class="menu-item <?= $activeMenu === 'settings' ? 'active' : '' ?>">
-                        <a href="/mwaba/settings">
+                        <a href="<?= $BASE_PATH ?>/settings">
                             <i class="fas fa-cog"></i>
                             <span>Settings</span>
                         </a>
@@ -260,15 +261,18 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="public/assets/js/script.js"></script>
-    <script src="public/assets/js/realtime.js"></script>
+    <script>
+        window.BASE_PATH = '<?= $BASE_PATH ?>';
+    </script>
+    <script src="<?= $BASE_PATH ?>/public/assets/js/script.js"></script>
+    <script src="<?= $BASE_PATH ?>/public/assets/js/realtime.js"></script>
     
     <!-- PWA Service Worker Registration -->
     <script>
         // Register Service Worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-                navigator.serviceWorker.register('public/sw.js')
+                navigator.serviceWorker.register('<?= $BASE_PATH ?>/public/sw.js')
                     .then(function(registration) {
                         console.log('Service Worker registered successfully:', registration.scope);
                         

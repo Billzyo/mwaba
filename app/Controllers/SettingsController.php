@@ -26,7 +26,7 @@ class SettingsController extends BaseController {
     public function index() {
         // Check authentication
         if (!isset($_SESSION['user_id'])) {
-            header('Location: /mwaba/login');
+            header('Location: ' . rtrim(dirname($_SERVER['SCRIPT_NAME'] ?? ''), '/\\') . '/login');
             exit;
         }
         

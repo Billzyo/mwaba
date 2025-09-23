@@ -22,7 +22,7 @@ switch ($error) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $pageTitle ?? 'Login - Farm Monitoring System' ?></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="public/assets/css/styles.css">
+    <link rel="stylesheet" href="<?= $BASE_PATH ?>/public/assets/css/styles.css">
     <style>
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -200,7 +200,7 @@ switch ($error) {
             </div>
         <?php endif; ?>
         
-        <form method="POST" action="/mwaba/auth/authenticate">
+        <form method="POST" action="<?= $BASE_PATH ?>/auth/authenticate">
             <div class="form-group">
                 <label for="username">Username</label>
                 <div class="input-wrapper">

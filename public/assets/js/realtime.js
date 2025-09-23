@@ -364,7 +364,7 @@ class RealtimeFarmMonitor {
     
     async fetchLatestData() {
         try {
-            const response = await fetch('/mwaba/api/realtime/data');
+            const response = await fetch(`${window.BASE_PATH}/api/realtime/data`);
             
             // Check if response is ok and content type is JSON
             if (!response.ok) {

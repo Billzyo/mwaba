@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 19, 2025 at 08:57 PM
+-- Generation Time: Sep 23, 2025 at 07:11 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -1028,7 +1028,42 @@ INSERT INTO `sensor_readings` (`reading_id`, `sensor_id`, `value`, `reading_time
 (1437, 3, 0.00, '2025-07-31 22:55:45', 'normal'),
 (1438, 1, 31.30, '2025-07-31 22:55:50', 'normal'),
 (1439, 2, 7.30, '2025-07-31 22:55:50', 'normal'),
-(1440, 3, 0.00, '2025-07-31 22:55:50', 'normal');
+(1440, 3, 0.00, '2025-07-31 22:55:50', 'normal'),
+(1441, 1, 25.00, '2025-09-19 23:20:25', 'normal'),
+(1442, 2, 79.00, '2025-09-19 23:20:25', 'normal'),
+(1443, 3, 26.00, '2025-09-19 23:20:25', 'normal');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `settings`
+--
+
+CREATE TABLE `settings` (
+  `id` int(11) NOT NULL,
+  `setting_key` varchar(100) NOT NULL,
+  `setting_value` text DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `settings`
+--
+
+INSERT INTO `settings` (`id`, `setting_key`, `setting_value`, `description`, `created_at`, `updated_at`) VALUES
+(1, 'farm_name', 'Shantuka Farm', NULL, '2025-09-22 18:28:59', '2025-09-22 18:34:10'),
+(2, 'timezone', 'UTC', NULL, '2025-09-22 18:28:59', '2025-09-22 18:34:10'),
+(3, 'temperature_unit', 'celsius', NULL, '2025-09-22 18:28:59', '2025-09-22 18:34:10'),
+(4, 'humidity_threshold', '70', NULL, '2025-09-22 18:28:59', '2025-09-22 18:34:10'),
+(5, 'soil_moisture_threshold', '50', NULL, '2025-09-22 18:28:59', '2025-09-22 18:34:10'),
+(6, 'notification_email', 'billzmusaka@gmail.com', NULL, '2025-09-22 18:28:59', '2025-09-22 18:34:10'),
+(7, 'sensor_update_interval', '30', NULL, '2025-09-22 18:29:00', '2025-09-22 18:34:10'),
+(8, 'data_retention_days', '365', NULL, '2025-09-22 18:29:00', '2025-09-22 18:34:10'),
+(9, 'backup_enabled', '0', NULL, '2025-09-22 18:29:00', '2025-09-22 18:34:10'),
+(10, 'maintenance_mode', '0', NULL, '2025-09-22 18:29:00', '2025-09-22 18:29:00'),
+(11, 'test_setting', 'test_value', NULL, '2025-09-22 18:29:00', '2025-09-22 18:29:21');
 
 -- --------------------------------------------------------
 
@@ -1044,16 +1079,25 @@ CREATE TABLE `users` (
   `email` varchar(100) NOT NULL,
   `role` varchar(20) DEFAULT NULL CHECK (`role` in ('admin','farmer','viewer')),
   `last_login` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `theme` varchar(20) DEFAULT 'light',
+  `language` varchar(5) DEFAULT 'en',
+  `notifications` tinyint(1) DEFAULT 1,
+  `email_alerts` tinyint(1) DEFAULT 1,
+  `dashboard_layout` varchar(20) DEFAULT 'default'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `username`, `password`, `full_name`, `email`, `role`, `last_login`, `created_at`) VALUES
-(1, 'farmer_john', 'securehash123', 'John Smith', 'john@shantukafarm.com', 'admin', '2025-07-30 17:16:12', '2025-07-30 17:16:12'),
-(2, 'tech_sarah', 'securehash456', 'Sarah Wilson', 'sarah@shantukafarm.com', 'farmer', '2025-07-30 17:16:12', '2025-07-30 17:16:12');
+INSERT INTO `users` (`user_id`, `username`, `password`, `full_name`, `email`, `role`, `last_login`, `created_at`, `theme`, `language`, `notifications`, `email_alerts`, `dashboard_layout`) VALUES
+(1, 'farmer_john', '$2y$10$FgGuuX9KNtXiFQxKKCn.zuW0QsrO1oZzcMV5xARYspYi.i9Z87GO6', 'John Smith', 'john@shantukafarm.com', 'admin', '2025-09-22 20:39:33', '2025-07-30 17:16:12', 'dark', 'en', 1, 1, 'compact'),
+(2, 'tech_sarah', 'securehash456', 'mwaba', 'mwaba@shantukafarm.com', 'farmer', '2025-09-19 20:53:16', '2025-07-30 17:16:12', 'light', 'en', 1, 1, 'default'),
+(3, 'Chiko', '$2y$10$SrtmpOmzspAH.vyExfHLlOpQ6ccuGWCO/Va0.9q0n1H0o/ygv3s0q', 'mwaba chanda', 'chikomwabchanda@gmail.com', 'admin', '2025-09-23 06:59:54', '2025-09-19 20:55:36', 'dark', 'en', 0, 0, 'compact'),
+(4, 'billz', '$2y$10$r/QcJtFkH0LqPvGM7wMxt.YuNBMnquuz6nJ64y7rL/jpvNOpeG8u6', 'chungu musaka', 'chungu.musaka@cs.unza.zm', 'farmer', '2025-09-19 21:00:55', '2025-09-19 20:56:54', 'light', 'en', 1, 1, 'default'),
+(5, 'view', '$2y$10$CBt/Gjawp620e48MD2SihOclTFTnBbMoZ8/Tr2YFFnDNhp8iz3OaW', 'viewer', 'viewer@gmail.com', 'viewer', '2025-09-19 21:03:07', '2025-09-19 21:02:51', 'light', 'en', 1, 1, 'default'),
+(6, 'stanford', '$2y$10$s.FUJEFJDj5B0pr9jmnS0uZERNM6MOM2MOQIwfWakCvFrSGSNM1R6', 'Stanford Zulu', 'stanford@gmail.com', 'farmer', '2025-09-21 20:12:46', '2025-09-21 20:12:01', 'light', 'en', 1, 1, 'default');
 
 --
 -- Indexes for dumped tables
@@ -1082,6 +1126,13 @@ ALTER TABLE `sensors`
 --
 ALTER TABLE `sensor_readings`
   ADD PRIMARY KEY (`reading_id`);
+
+--
+-- Indexes for table `settings`
+--
+ALTER TABLE `settings`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `setting_key` (`setting_key`);
 
 --
 -- Indexes for table `users`
@@ -1117,13 +1168,19 @@ ALTER TABLE `sensors`
 -- AUTO_INCREMENT for table `sensor_readings`
 --
 ALTER TABLE `sensor_readings`
-  MODIFY `reading_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1441;
+  MODIFY `reading_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1444;
+
+--
+-- AUTO_INCREMENT for table `settings`
+--
+ALTER TABLE `settings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `user_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

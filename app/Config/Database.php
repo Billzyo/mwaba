@@ -3,13 +3,17 @@
 namespace App\Config;
 
 class Database {
-    private $host = 'localhost';
-    private $username = 'root';
-    private $password = '';
-    private $database = 'farm_monitoring';
+    private $host;
+    private $username;
+    private $password;
+    private $database;
     private $connection;
     
     public function __construct() {
+        $this->host = $_ENV['DB_HOST'] ?? getenv('DB_HOST') ?: 'localhost';
+        $this->username = $_ENV['DB_USER'] ?? getenv('DB_USER') ?: 'root';
+        $this->password = $_ENV['DB_PASS'] ?? getenv('DB_PASS') ?: '';
+        $this->database = $_ENV['DB_NAME'] ?? getenv('DB_NAME') ?: 'farm_monitoring';
         $this->connect();
     }
     

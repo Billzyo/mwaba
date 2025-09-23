@@ -64,7 +64,7 @@ class UserController extends BaseController {
         AuthMiddleware::requireRole('admin');
         
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $this->redirect('/mwaba/users');
+            $this->redirect('/users');
             return;
         }
         
@@ -81,7 +81,7 @@ class UserController extends BaseController {
             $requiredFields = ['username', 'password', 'full_name', 'email'];
             foreach ($requiredFields as $field) {
                 if (empty($userData[$field])) {
-                    $this->redirect('/mwaba/users/create?error=missing_fields');
+                    $this->redirect('/users/create?error=missing_fields');
                     return;
                 }
             }
@@ -89,13 +89,13 @@ class UserController extends BaseController {
             // Check if username or email already exists
             $existingUser = $this->userModel->getUserByUsername($userData['username']);
             if ($existingUser) {
-                $this->redirect('/mwaba/users/create?error=username_exists');
+                $this->redirect('/users/create?error=username_exists');
                 return;
             }
             
             $existingEmail = $this->userModel->getUserByEmail($userData['email']);
             if ($existingEmail) {
-                $this->redirect('/mwaba/users/create?error=email_exists');
+                $this->redirect('/users/create?error=email_exists');
                 return;
             }
             
@@ -106,13 +106,13 @@ class UserController extends BaseController {
             $userId = $this->userModel->createUser($userData);
             
             if ($userId) {
-                $this->redirect('/mwaba/users?success=user_created');
+                $this->redirect('/users?success=user_created');
             } else {
-                $this->redirect('/mwaba/users/create?error=creation_failed');
+                $this->redirect('/users/create?error=creation_failed');
             }
             
         } catch (Exception $e) {
-            $this->redirect('/mwaba/users/create?error=server_error');
+            $this->redirect('/users/create?error=server_error');
         }
     }
     
@@ -123,7 +123,7 @@ class UserController extends BaseController {
         $userId = $_GET['id'] ?? null;
         
         if (!$userId) {
-            $this->redirect('/mwaba/users');
+            $this->redirect('/users');
             return;
         }
         
@@ -132,7 +132,7 @@ class UserController extends BaseController {
             $user = $this->userModel->getById($userId);
             
             if (!$user) {
-                $this->redirect('/mwaba/users?error=user_not_found');
+                $this->redirect('/users?error=user_not_found');
                 return;
             }
             
@@ -147,7 +147,7 @@ class UserController extends BaseController {
             echo $this->render('users/edit', $data);
             
         } catch (Exception $e) {
-            $this->redirect('/mwaba/users?error=server_error');
+            $this->redirect('/users?error=server_error');
         }
     }
     
@@ -156,14 +156,14 @@ class UserController extends BaseController {
         AuthMiddleware::requireRole('admin');
         
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $this->redirect('/mwaba/users');
+            $this->redirect('/users');
             return;
         }
         
         $userId = $_POST['user_id'] ?? null;
         
         if (!$userId) {
-            $this->redirect('/mwaba/users');
+            $this->redirect('/users');
             return;
         }
         
@@ -176,14 +176,14 @@ class UserController extends BaseController {
             
             // Validate required fields
             if (empty($userData['full_name']) || empty($userData['email'])) {
-                $this->redirect("/mwaba/users/edit?id={$userId}&error=missing_fields");
+                $this->redirect("/users/edit?id={$userId}&error=missing_fields");
                 return;
             }
             
             // Check if email already exists for another user
             $existingEmail = $this->userModel->getUserByEmail($userData['email']);
             if ($existingEmail && $existingEmail['user_id'] != $userId) {
-                $this->redirect("/mwaba/users/edit?id={$userId}&error=email_exists");
+                $this->redirect("/users/edit?id={$userId}&error=email_exists");
                 return;
             }
             
@@ -196,13 +196,13 @@ class UserController extends BaseController {
             $result = $this->userModel->update($userId, $userData);
             
             if ($result) {
-                $this->redirect('/mwaba/users?success=user_updated');
+                $this->redirect('/users?success=user_updated');
             } else {
-                $this->redirect("/mwaba/users/edit?id={$userId}&error=update_failed");
+                $this->redirect("/users/edit?id={$userId}&error=update_failed");
             }
             
         } catch (Exception $e) {
-            $this->redirect("/mwaba/users/edit?id={$userId}&error=server_error");
+            $this->redirect("/users/edit?id={$userId}&error=server_error");
         }
     }
     
@@ -213,7 +213,7 @@ class UserController extends BaseController {
         $userId = $_POST['user_id'] ?? null;
         
         if (!$userId) {
-            $this->redirect('/mwaba/users');
+            $this->redirect('/users');
             return;
         }
         
@@ -222,20 +222,20 @@ class UserController extends BaseController {
             
             // Prevent admin from deleting themselves
             if ($userId == $currentUser['user_id']) {
-                $this->redirect('/mwaba/users?error=cannot_delete_self');
+                $this->redirect('/users?error=cannot_delete_self');
                 return;
             }
             
             $result = $this->userModel->delete($userId);
             
             if ($result) {
-                $this->redirect('/mwaba/users?success=user_deleted');
+                $this->redirect('/users?success=user_deleted');
             } else {
-                $this->redirect('/mwaba/users?error=delete_failed');
+                $this->redirect('/users?error=delete_failed');
             }
             
         } catch (Exception $e) {
-            $this->redirect('/mwaba/users?error=server_error');
+            $this->redirect('/users?error=server_error');
         }
     }
 }

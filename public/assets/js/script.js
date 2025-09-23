@@ -399,7 +399,7 @@ function toggleChartFullscreen(chartCard) {
  */
 async function fetchLatestData() {
     try {
-        const response = await fetch('/mwaba/api/dashboard/latest');
+        const response = await fetch(`${window.BASE_PATH}/api/dashboard/latest`);
         const data = await response.json();
         
         if (data.status === 'success') {
@@ -436,7 +436,7 @@ function updateDashboardWithData(sensorData) {
 function updateCropHealth(areaId) {
     const healthStatus = prompt('Enter new health status (excellent, good, fair, poor):');
     if (healthStatus && ['excellent', 'good', 'fair', 'poor'].includes(healthStatus)) {
-        fetch('/mwaba/api/crops/update-health', {
+        fetch(`${window.BASE_PATH}/api/crops/update-health`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -469,7 +469,7 @@ function updateEquipmentStatus(equipmentId, currentStatus) {
     const newStatus = prompt(`Enter new status (${statuses.join(', ')}):`, currentStatus);
     
     if (newStatus && statuses.includes(newStatus)) {
-        fetch('/mwaba/api/equipment/update-status', {
+        fetch(`${window.BASE_PATH}/api/equipment/update-status`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -499,7 +499,7 @@ function updateEquipmentStatus(equipmentId, currentStatus) {
  */
 function updateMaintenance(equipmentId) {
     if (confirm('Mark this equipment as maintained today?')) {
-        fetch('/mwaba/api/equipment/update-maintenance', {
+        fetch(`${window.BASE_PATH}/api/equipment/update-maintenance`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

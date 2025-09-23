@@ -35,12 +35,12 @@ switch ($error) {
 <div class="dashboard-content">
     <div class="content-header">
         <div class="header-left">
-            <a href="/mwaba/dashboard" class="btn btn-secondary">
+            <a href="<?= $BASE_PATH ?>/dashboard" class="btn btn-secondary">
                 <i class="fas fa-arrow-left"></i> Back to Dashboard
             </a>
             <h2><i class="fas fa-users"></i> User Management</h2>
         </div>
-        <a href="/mwaba/users/create" class="btn btn-primary">
+        <a href="<?= $BASE_PATH ?>/users/create" class="btn btn-primary">
             <i class="fas fa-plus"></i> Add New User
         </a>
     </div>
@@ -101,7 +101,7 @@ switch ($error) {
                             <td><?= date('M j, Y', strtotime($user['created_at'])) ?></td>
                             <td>
                                 <div class="action-buttons">
-                                    <a href="/mwaba/users/edit?id=<?= $user['user_id'] ?>" 
+                                    <a href="<?= $BASE_PATH ?>/users/edit?id=<?= $user['user_id'] ?>" 
                                        class="btn btn-sm btn-edit" title="Edit User">
                                         <i class="fas fa-edit"></i>
                                     </a>
@@ -141,7 +141,7 @@ switch ($error) {
         </div>
         <div class="modal-footer">
             <button class="btn btn-secondary" onclick="closeDeleteModal()">Cancel</button>
-            <form id="deleteForm" method="POST" action="/mwaba/users/delete" style="display: inline;">
+            <form id="deleteForm" method="POST" action="<?= $BASE_PATH ?>/users/delete" style="display: inline;">
                 <input type="hidden" name="user_id" id="deleteUserId">
                 <button type="submit" class="btn btn-danger">Delete User</button>
             </form>

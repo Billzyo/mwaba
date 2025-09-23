@@ -574,7 +574,7 @@ function saveSystemSettings() {
         }
     });
     
-    fetch('/mwaba/settings/update', {
+    fetch(`${window.BASE_PATH}/settings/update`, {
         method: 'POST',
         body: formData
     })
@@ -608,7 +608,7 @@ function saveUserPreferences() {
         }
     });
     
-    fetch('/mwaba/settings/update', {
+    fetch(`${window.BASE_PATH}/settings/update`, {
         method: 'POST',
         body: formData
     })
@@ -632,7 +632,7 @@ function performMaintenance(action) {
         const formData = new FormData();
         formData.append('reset_type', action);
         
-        fetch('/mwaba/settings/reset', {
+        fetch(`${window.BASE_PATH}/settings/reset`, {
             method: 'POST',
             body: formData
         })

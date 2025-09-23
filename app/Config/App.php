@@ -18,66 +18,68 @@ class App {
     private $router;
     
     public function __construct() {
-        $this->router = new Router();
+        $basePath = rtrim(dirname($_SERVER['SCRIPT_NAME'] ?? ''), '/\\');
+        if ($basePath === '/' || $basePath === '\\') { $basePath = ''; }
+        $this->router = new Router($basePath);
         $this->setupRoutes();
     }
     
     private function setupRoutes() {
         // Authentication routes (public)
-        $this->router->add('GET', '/mwaba/login', [AuthController::class, 'login']);
-        $this->router->add('POST', '/mwaba/auth/authenticate', [AuthController::class, 'authenticate']);
-        $this->router->add('GET', '/mwaba/logout', [AuthController::class, 'logout']);
+        $this->router->add('GET', '/login', [AuthController::class, 'login']);
+        $this->router->add('POST', '/auth/authenticate', [AuthController::class, 'authenticate']);
+        $this->router->add('GET', '/logout', [AuthController::class, 'logout']);
         
         // Dashboard routes (protected)
-        $this->router->add('GET', '/mwaba/', [DashboardController::class, 'index']);
-        $this->router->add('GET', '/mwaba/dashboard', [DashboardController::class, 'index']);
+        $this->router->add('GET', '/', [DashboardController::class, 'index']);
+        $this->router->add('GET', '/dashboard', [DashboardController::class, 'index']);
         
         // Sensor routes (protected)
-        $this->router->add('POST', '/mwaba/sensor/receive', [SensorController::class, 'receiveData']);
-        $this->router->add('POST', '/mwaba/data-receiver.php', [SensorController::class, 'receiveData']);
+        $this->router->add('POST', '/sensor/receive', [SensorController::class, 'receiveData']);
+        $this->router->add('POST', '/data-receiver.php', [SensorController::class, 'receiveData']);
         
         // Crop routes (protected)
-        $this->router->add('GET', '/mwaba/crops', [CropController::class, 'index']);
+        $this->router->add('GET', '/crops', [CropController::class, 'index']);
         
         // Equipment routes (protected)
-        $this->router->add('GET', '/mwaba/equipment', [EquipmentController::class, 'index']);
+        $this->router->add('GET', '/equipment', [EquipmentController::class, 'index']);
         
         // User management routes (admin only)
-        $this->router->add('GET', '/mwaba/users', [UserController::class, 'index']);
-        $this->router->add('GET', '/mwaba/users/create', [UserController::class, 'create']);
-        $this->router->add('POST', '/mwaba/users/store', [UserController::class, 'store']);
-        $this->router->add('GET', '/mwaba/users/edit', [UserController::class, 'edit']);
-        $this->router->add('POST', '/mwaba/users/update', [UserController::class, 'update']);
-        $this->router->add('POST', '/mwaba/users/delete', [UserController::class, 'delete']);
+        $this->router->add('GET', '/users', [UserController::class, 'index']);
+        $this->router->add('GET', '/users/create', [UserController::class, 'create']);
+        $this->router->add('POST', '/users/store', [UserController::class, 'store']);
+        $this->router->add('GET', '/users/edit', [UserController::class, 'edit']);
+        $this->router->add('POST', '/users/update', [UserController::class, 'update']);
+        $this->router->add('POST', '/users/delete', [UserController::class, 'delete']);
         
         // Real-time API routes (protected)
-        $this->router->add('GET', '/mwaba/api/realtime/data', [RealtimeController::class, 'getLatestData']);
-        $this->router->add('GET', '/mwaba/api/realtime/charts', [RealtimeController::class, 'getChartData']);
-        $this->router->add('GET', '/mwaba/api/realtime/alerts', [RealtimeController::class, 'getAlerts']);
-        $this->router->add('POST', '/mwaba/api/realtime/broadcast', [RealtimeController::class, 'broadcastSensorData']);
+        $this->router->add('GET', '/api/realtime/data', [RealtimeController::class, 'getLatestData']);
+        $this->router->add('GET', '/api/realtime/charts', [RealtimeController::class, 'getChartData']);
+        $this->router->add('GET', '/api/realtime/alerts', [RealtimeController::class, 'getAlerts']);
+        $this->router->add('POST', '/api/realtime/broadcast', [RealtimeController::class, 'broadcastSensorData']);
         
         // Analytics routes (protected)
-        $this->router->add('GET', '/mwaba/analytics', [AnalyticsController::class, 'index']);
-        $this->router->add('GET', '/mwaba/api/analytics/data', [AnalyticsController::class, 'getAnalyticsData']);
-        $this->router->add('GET', '/mwaba/api/analytics/report', [AnalyticsController::class, 'generateReport']);
-        $this->router->add('GET', '/mwaba/api/analytics/export', [AnalyticsController::class, 'exportData']);
+        $this->router->add('GET', '/analytics', [AnalyticsController::class, 'index']);
+        $this->router->add('GET', '/api/analytics/data', [AnalyticsController::class, 'getAnalyticsData']);
+        $this->router->add('GET', '/api/analytics/report', [AnalyticsController::class, 'generateReport']);
+        $this->router->add('GET', '/api/analytics/export', [AnalyticsController::class, 'exportData']);
         
         // Performance routes (admin only)
-        $this->router->add('GET', '/mwaba/performance', [PerformanceController::class, 'index']);
-        $this->router->add('GET', '/mwaba/api/performance/metrics', [PerformanceController::class, 'getSystemMetrics']);
-        $this->router->add('GET', '/mwaba/api/performance/cache-stats', [PerformanceController::class, 'getCacheStats']);
-        $this->router->add('POST', '/mwaba/api/performance/clear-cache', [PerformanceController::class, 'clearCache']);
+        $this->router->add('GET', '/performance', [PerformanceController::class, 'index']);
+        $this->router->add('GET', '/api/performance/metrics', [PerformanceController::class, 'getSystemMetrics']);
+        $this->router->add('GET', '/api/performance/cache-stats', [PerformanceController::class, 'getCacheStats']);
+        $this->router->add('POST', '/api/performance/clear-cache', [PerformanceController::class, 'clearCache']);
         
         // Settings routes (protected)
-        $this->router->add('GET', '/mwaba/settings', [SettingsController::class, 'index']);
-        $this->router->add('POST', '/mwaba/settings/update', [SettingsController::class, 'update']);
-        $this->router->add('POST', '/mwaba/settings/reset', [SettingsController::class, 'reset']);
+        $this->router->add('GET', '/settings', [SettingsController::class, 'index']);
+        $this->router->add('POST', '/settings/update', [SettingsController::class, 'update']);
+        $this->router->add('POST', '/settings/reset', [SettingsController::class, 'reset']);
         
         // Additional API routes for dashboard and other features
-        $this->router->add('GET', '/mwaba/api/dashboard/latest', [DashboardController::class, 'getLatestData']);
-        $this->router->add('POST', '/mwaba/api/crops/update-health', [CropController::class, 'updateHealthStatus']);
-        $this->router->add('POST', '/mwaba/api/equipment/update-status', [EquipmentController::class, 'updateStatus']);
-        $this->router->add('POST', '/mwaba/api/equipment/update-maintenance', [EquipmentController::class, 'updateMaintenance']);
+        $this->router->add('GET', '/api/dashboard/latest', [DashboardController::class, 'getLatestData']);
+        $this->router->add('POST', '/api/crops/update-health', [CropController::class, 'updateHealthStatus']);
+        $this->router->add('POST', '/api/equipment/update-status', [EquipmentController::class, 'updateStatus']);
+        $this->router->add('POST', '/api/equipment/update-maintenance', [EquipmentController::class, 'updateMaintenance']);
     }
     
     public function run() {

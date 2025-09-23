@@ -616,7 +616,7 @@ function initCacheCharts() {
 
 function refreshMetrics() {
     // Reload all performance data
-    fetch('/mwaba/api/performance/metrics')
+    fetch(`${window.BASE_PATH}/api/performance/metrics`)
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
@@ -630,7 +630,7 @@ function refreshMetrics() {
 
 function clearCache() {
     if (confirm('Are you sure you want to clear all cache? This action cannot be undone.')) {
-        fetch('/mwaba/api/performance/clear-cache', {
+        fetch(`${window.BASE_PATH}/api/performance/clear-cache`, {
             method: 'POST'
         })
         .then(response => response.json())
@@ -665,7 +665,7 @@ function toggleAutoRefresh() {
 }
 
 function warmCache() {
-    fetch('/mwaba/api/performance/warm-cache', {
+    fetch(`${window.BASE_PATH}/api/performance/warm-cache`, {
         method: 'POST'
     })
     .then(response => response.json())
@@ -684,7 +684,7 @@ function warmCache() {
 }
 
 function exportCacheStats() {
-    fetch('/mwaba/api/performance/export-stats')
+    fetch(`${window.BASE_PATH}/api/performance/export-stats`)
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {

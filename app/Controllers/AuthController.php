@@ -17,7 +17,7 @@ class AuthController extends BaseController {
     
     public function login() {
         if ($this->isLoggedIn()) {
-            $this->redirect('/mwaba/dashboard');
+            $this->redirect('/dashboard');
             return;
         }
         
@@ -30,7 +30,7 @@ class AuthController extends BaseController {
     
     public function authenticate() {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $this->redirect('/mwaba/login');
+            $this->redirect('/login');
             return;
         }
         
@@ -38,7 +38,7 @@ class AuthController extends BaseController {
         $password = $_POST['password'] ?? '';
         
         if (empty($username) || empty($password)) {
-            $this->redirect('/mwaba/login?error=empty_fields');
+            $this->redirect('/login?error=empty_fields');
             return;
         }
         
@@ -58,16 +58,16 @@ class AuthController extends BaseController {
             $this->userModel->updateLastLogin($user['user_id']);
             
             // Redirect to dashboard
-            $this->redirect('/mwaba/dashboard');
+            $this->redirect('/dashboard');
         } else {
-            $this->redirect('/mwaba/login?error=invalid_credentials');
+            $this->redirect('/login?error=invalid_credentials');
         }
     }
     
     public function logout() {
         session_start();
         session_destroy();
-        $this->redirect('/mwaba/login');
+        $this->redirect('/login');
     }
     
     public function isLoggedIn() {
@@ -89,7 +89,7 @@ class AuthController extends BaseController {
     
     public function requireAuth() {
         if (!$this->isLoggedIn()) {
-            $this->redirect('/mwaba/login');
+            $this->redirect('/login');
             exit;
         }
     }

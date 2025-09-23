@@ -663,7 +663,7 @@ function initCorrelationCharts() {
 
 function loadInsights() {
     // Load insights data
-    fetch('/mwaba/api/analytics/insights')
+    fetch(`${window.BASE_PATH}/api/analytics/insights`)
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
@@ -679,7 +679,7 @@ function updateAnalytics() {
     const dateRange = document.getElementById('dateRange').value;
     
     // Reload analytics data with new date range
-    fetch(`/mwaba/api/analytics/data?range=${dateRange}`)
+    fetch(`${window.BASE_PATH}/api/analytics/data?range=${dateRange}`)
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
@@ -693,7 +693,7 @@ function updateAnalytics() {
 
 function generateReport(type) {
     const dateRange = document.getElementById('dateRange').value;
-    const url = `/mwaba/api/analytics/report?type=${type}&range=${dateRange}`;
+    const url = `${window.BASE_PATH}/api/analytics/report?type=${type}&range=${dateRange}`;
     
     // Open report generation in new window
     window.open(url, '_blank');
@@ -701,7 +701,7 @@ function generateReport(type) {
 
 function exportData(format) {
     const dateRange = document.getElementById('dateRange').value;
-    const url = `/mwaba/api/analytics/export?format=${format}&range=${dateRange}`;
+    const url = `${window.BASE_PATH}/api/analytics/export?format=${format}&range=${dateRange}`;
     
     // Trigger download
     window.location.href = url;
@@ -723,7 +723,7 @@ function applyFilters() {
         end_date: endDate
     });
     
-    fetch(`/mwaba/api/analytics/data?${params}`)
+    fetch(`${window.BASE_PATH}/api/analytics/data?${params}`)
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {

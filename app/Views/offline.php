@@ -252,9 +252,9 @@ ob_start();
 function goToDashboard() {
     // Try to go to dashboard, fallback to home if offline
     if (navigator.onLine) {
-        window.location.href = '/mwaba/dashboard';
+        window.location.href = `${window.BASE_PATH}/dashboard`;
     } else {
-        window.location.href = '/mwaba/';
+        window.location.href = `${window.BASE_PATH}/`;
     }
 }
 

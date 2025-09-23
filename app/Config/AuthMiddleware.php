@@ -13,7 +13,8 @@ class AuthMiddleware {
         self::startSessionIfNeeded();
         
         if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-            header('Location: /mwaba/login?error=session_expired');
+            $base = rtrim(dirname($_SERVER['SCRIPT_NAME'] ?? ''), '/\\'); if ($base === '/' || $base === '\\') { $base = ''; }
+            header('Location: ' . $base . '/login?error=session_expired');
             exit;
         }
     }
@@ -22,7 +23,8 @@ class AuthMiddleware {
         self::requireAuth();
         
         if (!isset($_SESSION['role']) || $_SESSION['role'] !== $requiredRole) {
-            header('Location: /mwaba/dashboard?error=insufficient_permissions');
+            $base = rtrim(dirname($_SERVER['SCRIPT_NAME'] ?? ''), '/\\'); if ($base === '/' || $base === '\\') { $base = ''; }
+            header('Location: ' . $base . '/dashboard?error=insufficient_permissions');
             exit;
         }
     }
@@ -48,7 +50,8 @@ class AuthMiddleware {
     public static function logout() {
         self::startSessionIfNeeded();
         session_destroy();
-        header('Location: /mwaba/login');
+        $base = rtrim(dirname($_SERVER['SCRIPT_NAME'] ?? ''), '/\\'); if ($base === '/' || $base === '\\') { $base = ''; }
+        header('Location: ' . $base . '/login');
         exit;
     }
 }
